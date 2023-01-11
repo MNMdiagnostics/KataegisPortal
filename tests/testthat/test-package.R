@@ -47,3 +47,21 @@ test_that("Package results are identical to the original ones", {
   kataegis_res <- katPoint(mutSNP)
   expect_identical(kataegis_res, kataegis_expected)
 })
+
+
+test_that("Package does not fail for TCGA case that the original code used to", {
+  snvs <- readr::read_tsv("../testdata/S1.snvs.tsv", col_types = "cdcc") %>%
+    as.data.frame()
+
+  mutSNP <- mutSNP.input(
+    mut.data = snvs,
+    chr = "chr",
+    pos = "pos",
+    ref = "ref",
+    alt = "alt",
+    build = "hg19"
+  )
+
+  kataegis_res <- katPoint(mutSNP)
+  expect_false(is.null(kataegis_res))
+})
